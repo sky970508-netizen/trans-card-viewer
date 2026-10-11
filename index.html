@@ -81,7 +81,7 @@
 </footer>
 <dialog id="zoom"><button class="close" onclick="zoom.close()">닫기</button><img id="zoomImg" alt=""></dialog>
 <script>
-const DATA = {"dates": ["2026-06-22", "2026-06-23", "2026-06-24", "2026-06-25", "2026-06-26", "2026-06-27", "2026-06-28"], "groups": [{"key": "community", "label": "Community", "items": [{"key": "emd_community", "label": "community map", "kind": "html", "src": "assets/emd_community_map.html"}]}, {"key": "map", "label": "Map", "items": [{"key": "poi_map", "label": "POI(SMA)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_map_2026-06-22.svg", "2026-06-23": "assets/poi_map_2026-06-23.svg", "2026-06-24": "assets/poi_map_2026-06-24.svg", "2026-06-25": "assets/poi_map_2026-06-25.svg", "2026-06-26": "assets/poi_map_2026-06-26.svg", "2026-06-27": "assets/poi_map_2026-06-27.svg", "2026-06-28": "assets/poi_map_2026-06-28.svg"}}, {"key": "poi_map_seoul", "label": "POI(Seoul)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_map_seoul_2026-06-22.svg", "2026-06-23": "assets/poi_map_seoul_2026-06-23.svg", "2026-06-24": "assets/poi_map_seoul_2026-06-24.svg", "2026-06-25": "assets/poi_map_seoul_2026-06-25.svg", "2026-06-26": "assets/poi_map_seoul_2026-06-26.svg", "2026-06-27": "assets/poi_map_seoul_2026-06-27.svg", "2026-06-28": "assets/poi_map_seoul_2026-06-28.svg"}}, {"key": "hub_map", "label": "Hub(SMA)", "kind": "svg", "assets": {"2026-06-22": "assets/hub_map_2026-06-22.svg", "2026-06-23": "assets/hub_map_2026-06-23.svg", "2026-06-24": "assets/hub_map_2026-06-24.svg", "2026-06-25": "assets/hub_map_2026-06-25.svg", "2026-06-26": "assets/hub_map_2026-06-26.svg", "2026-06-27": "assets/hub_map_2026-06-27.svg", "2026-06-28": "assets/hub_map_2026-06-28.svg"}}, {"key": "hub_map_seoul", "label": "Hub(Seoul)", "kind": "svg", "assets": {"2026-06-22": "assets/hub_map_seoul_2026-06-22.svg", "2026-06-23": "assets/hub_map_seoul_2026-06-23.svg", "2026-06-24": "assets/hub_map_seoul_2026-06-24.svg", "2026-06-25": "assets/hub_map_seoul_2026-06-25.svg", "2026-06-26": "assets/hub_map_seoul_2026-06-26.svg", "2026-06-27": "assets/hub_map_seoul_2026-06-27.svg", "2026-06-28": "assets/hub_map_seoul_2026-06-28.svg"}}]}, {"key": "cartography", "label": "Cartography", "items": [{"key": "poi", "label": "POI", "kind": "svg", "assets": {"2026-06-22": "assets/poi_2026-06-22.svg", "2026-06-23": "assets/poi_2026-06-23.svg", "2026-06-24": "assets/poi_2026-06-24.svg", "2026-06-25": "assets/poi_2026-06-25.svg", "2026-06-26": "assets/poi_2026-06-26.svg", "2026-06-27": "assets/poi_2026-06-27.svg", "2026-06-28": "assets/poi_2026-06-28.svg"}}, {"key": "poi_lq", "label": "POI_LQ", "kind": "svg", "assets": {"2026-06-22": "assets/poi_lq_2026-06-22.svg", "2026-06-23": "assets/poi_lq_2026-06-23.svg", "2026-06-24": "assets/poi_lq_2026-06-24.svg", "2026-06-25": "assets/poi_lq_2026-06-25.svg", "2026-06-26": "assets/poi_lq_2026-06-26.svg", "2026-06-27": "assets/poi_lq_2026-06-27.svg", "2026-06-28": "assets/poi_lq_2026-06-28.svg"}}, {"key": "hub", "label": "Hub", "kind": "svg", "assets": {"2026-06-22": "assets/hub_2026-06-22.svg", "2026-06-23": "assets/hub_2026-06-23.svg", "2026-06-24": "assets/hub_2026-06-24.svg", "2026-06-25": "assets/hub_2026-06-25.svg", "2026-06-26": "assets/hub_2026-06-26.svg", "2026-06-27": "assets/hub_2026-06-27.svg", "2026-06-28": "assets/hub_2026-06-28.svg"}}]}]};
+const DATA = {"dates": ["2026-06-22", "2026-06-23", "2026-06-24", "2026-06-25", "2026-06-26", "2026-06-27", "2026-06-28"], "groups": [{"key": "community", "label": "Community", "items": [{"key": "emd_community", "label": "community map", "kind": "html", "src": "assets/emd_community_map.html", "dated": true}]}, {"key": "map", "label": "Map", "items": [{"key": "poi_map", "label": "POI(SMA)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_map_2026-06-22.svg", "2026-06-23": "assets/poi_map_2026-06-23.svg", "2026-06-24": "assets/poi_map_2026-06-24.svg", "2026-06-25": "assets/poi_map_2026-06-25.svg", "2026-06-26": "assets/poi_map_2026-06-26.svg", "2026-06-27": "assets/poi_map_2026-06-27.svg", "2026-06-28": "assets/poi_map_2026-06-28.svg"}}, {"key": "poi_map_seoul", "label": "POI(Seoul)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_map_seoul_2026-06-22.svg", "2026-06-23": "assets/poi_map_seoul_2026-06-23.svg", "2026-06-24": "assets/poi_map_seoul_2026-06-24.svg", "2026-06-25": "assets/poi_map_seoul_2026-06-25.svg", "2026-06-26": "assets/poi_map_seoul_2026-06-26.svg", "2026-06-27": "assets/poi_map_seoul_2026-06-27.svg", "2026-06-28": "assets/poi_map_seoul_2026-06-28.svg"}}, {"key": "hub_map", "label": "Hub(SMA)", "kind": "svg", "assets": {"2026-06-22": "assets/hub_map_2026-06-22.svg", "2026-06-23": "assets/hub_map_2026-06-23.svg", "2026-06-24": "assets/hub_map_2026-06-24.svg", "2026-06-25": "assets/hub_map_2026-06-25.svg", "2026-06-26": "assets/hub_map_2026-06-26.svg", "2026-06-27": "assets/hub_map_2026-06-27.svg", "2026-06-28": "assets/hub_map_2026-06-28.svg"}}, {"key": "hub_map_seoul", "label": "Hub(Seoul)", "kind": "svg", "assets": {"2026-06-22": "assets/hub_map_seoul_2026-06-22.svg", "2026-06-23": "assets/hub_map_seoul_2026-06-23.svg", "2026-06-24": "assets/hub_map_seoul_2026-06-24.svg", "2026-06-25": "assets/hub_map_seoul_2026-06-25.svg", "2026-06-26": "assets/hub_map_seoul_2026-06-26.svg", "2026-06-27": "assets/hub_map_seoul_2026-06-27.svg", "2026-06-28": "assets/hub_map_seoul_2026-06-28.svg"}}]}, {"key": "cartography", "label": "Cartography", "items": [{"key": "poi", "label": "POI", "kind": "svg", "assets": {"2026-06-22": "assets/poi_2026-06-22.svg", "2026-06-23": "assets/poi_2026-06-23.svg", "2026-06-24": "assets/poi_2026-06-24.svg", "2026-06-25": "assets/poi_2026-06-25.svg", "2026-06-26": "assets/poi_2026-06-26.svg", "2026-06-27": "assets/poi_2026-06-27.svg", "2026-06-28": "assets/poi_2026-06-28.svg"}}, {"key": "poi_lq", "label": "POI_LQ", "kind": "svg", "assets": {"2026-06-22": "assets/poi_lq_2026-06-22.svg", "2026-06-23": "assets/poi_lq_2026-06-23.svg", "2026-06-24": "assets/poi_lq_2026-06-24.svg", "2026-06-25": "assets/poi_lq_2026-06-25.svg", "2026-06-26": "assets/poi_lq_2026-06-26.svg", "2026-06-27": "assets/poi_lq_2026-06-27.svg", "2026-06-28": "assets/poi_lq_2026-06-28.svg"}}, {"key": "hub", "label": "Hub", "kind": "svg", "assets": {"2026-06-22": "assets/hub_2026-06-22.svg", "2026-06-23": "assets/hub_2026-06-23.svg", "2026-06-24": "assets/hub_2026-06-24.svg", "2026-06-25": "assets/hub_2026-06-25.svg", "2026-06-26": "assets/hub_2026-06-26.svg", "2026-06-27": "assets/hub_2026-06-27.svg", "2026-06-28": "assets/hub_2026-06-28.svg"}}]}]};
 const state = {
   group: DATA.groups[0].key,
   item: DATA.groups[0].items[0].key,
@@ -91,7 +91,27 @@ const state = {
 
 const curGroup = () => DATA.groups.find(g => g.key === state.group);
 const curItems = () => curGroup().items;
-const hasDates = () => curItems().some(it => it.kind === "svg");
+const hasDates = () => curItems().some(it => it.kind === "svg" || it.dated);
+
+// iframe 카드는 한 번 만들어 계속 재사용한다 — DOM에 다시 끼우면 2.8MB짜리 지도를
+// 처음부터 다시 받으므로, 날짜가 바뀔 때는 노드를 그대로 두고 postMessage만 보낸다.
+const frames = {};
+function frameCard(it) {
+  if (!frames[it.key]) {
+    const fig = document.createElement("figure");
+    const f = document.createElement("iframe");
+    f.src = it.src; f.title = it.label;
+    f.addEventListener("load", () => postDate(it.key));
+    fig.appendChild(f);
+    frames[it.key] = fig;
+  }
+  return frames[it.key];
+}
+function postDate(key) {
+  const fig = frames[key];
+  const f = fig && fig.querySelector("iframe");
+  if (f && f.contentWindow) f.contentWindow.postMessage({ setDate: state.date }, "*");
+}
 
 function chip(label, pressed, onclick) {
   const b = document.createElement("button");
@@ -133,14 +153,9 @@ function renderBar() {
 function card(it) {
   // 캡션을 달지 않는다 — 그림(SVG) 안에 이미 "제목 + 날짜"가 그려져 있어서
   // 바깥에 또 쓰면 중복된다(2026-10-11 사용자 지시).
-  const fig = document.createElement("figure");
+  if (it.kind === "html") return frameCard(it);
 
-  if (it.kind === "html") {
-    const f = document.createElement("iframe");
-    f.src = it.src; f.title = it.label; f.loading = "lazy";
-    fig.appendChild(f);
-    return fig;
-  }
+  const fig = document.createElement("figure");
   const src = (it.assets || {})[state.date];
   if (!src) {
     const p = document.createElement("div");
@@ -164,9 +179,16 @@ function render() {
   const grid = document.getElementById("grid");
   const single = state.mode === "single" || curItems().length === 1;
   grid.className = "grid" + (single ? " single" : "");
-  grid.replaceChildren(...(single
-    ? [card(curItems().find(it => it.key === state.item) || curItems()[0])]
-    : curItems().map(card)));
+  const items = single
+    ? [curItems().find(it => it.key === state.item) || curItems()[0]]
+    : curItems();
+  const nodes = items.map(card);
+  // 이미 같은 노드가 같은 순서로 들어 있으면 건드리지 않는다 — iframe을 다시 끼우면
+  // 재로드된다(SVG 카드는 매번 새 노드라 어차피 교체된다).
+  const same = nodes.length === grid.childNodes.length
+    && nodes.every((n, i) => n === grid.childNodes[i]);
+  if (!same) grid.replaceChildren(...nodes);
+  items.forEach(it => { if (it.kind === "html") postDate(it.key); });
 }
 
 addEventListener("keydown", e => {
