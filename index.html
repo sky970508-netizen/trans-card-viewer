@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>읍면동 백본 산출물 뷰어 (읍면동_backbone)</title>
+<style>
+  :root {
+    --ink: #0b0b0b; --muted: #52514e; --line: #d8d7cf;
+    --bg: #ffffff; --chip: #f3f2ee; --accent: #0072B2; --accent2: #0b0b0b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+          "Noto Sans KR", sans-serif;
+  }
+  header {
+    position: sticky; top: 0; z-index: 10; background: var(--bg);
+    border-bottom: 1px solid var(--line); padding: 11px 16px 9px;
+  }
+  h1 { margin: 0 0 9px; font-size: 15px; font-weight: 650; letter-spacing: -0.01em; }
+  h1 small { color: var(--muted); font-weight: 400; margin-left: 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+          margin-top: 6px; }
+  .group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .group > span { color: var(--muted); font-size: 12px; margin-right: 4px; }
+  button {
+    font: inherit; font-size: 12.5px; padding: 4px 10px; cursor: pointer;
+    background: var(--chip); color: var(--ink);
+    border: 1px solid transparent; border-radius: 5px;
+  }
+  button:hover { border-color: var(--line); }
+  button[aria-pressed="true"] { background: var(--accent); color: #fff; font-weight: 600; }
+  #groups button { font-size: 13px; padding: 5px 14px; }
+  #groups button[aria-pressed="true"] { background: var(--accent2); }
+  main { padding: 16px; }
+  .grid { display: grid; gap: 14px;
+           grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }
+  .grid.single { grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+  figure { margin: 0; border: 1px solid var(--line); border-radius: 8px;
+            overflow: hidden; background: #fff; }
+  figure img { display: block; width: 100%; height: auto; cursor: zoom-in; }
+  figure iframe { display: block; width: 100%; height: 78vh; border: 0; }
+  .empty { padding: 40px; text-align: center; color: var(--muted); font-size: 13px; }
+  footer { padding: 0 16px 28px; color: var(--muted); font-size: 12px; }
+  footer code { background: var(--chip); padding: 1px 4px; border-radius: 3px; }
+  dialog { border: none; border-radius: 10px; padding: 0; max-width: 96vw;
+            max-height: 96vh; box-shadow: 0 10px 50px rgba(0,0,0,.3); }
+  dialog::backdrop { background: rgba(0,0,0,.6); }
+  dialog img { display: block; max-width: 96vw; max-height: 90vh; width: auto; }
+  dialog .close { position: absolute; top: 8px; right: 10px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>읍면동 백본 산출물 뷰어<small>읍면동_backbone</small></h1>
+  <div class="row"><div class="group" id="groups"><span>분류</span></div></div>
+  <div class="row">
+    <div class="group" id="items"><span>세부</span></div>
+    <div class="group" id="dates"><span>날짜</span></div>
+    <div class="group" id="modes"><span>보기</span></div>
+  </div>
+</header>
+<main><div class="grid" id="grid"></div></main>
+<footer>
+  그림을 누르면 원본 크기로 크게 볼 수 있다 (닫기: <code>Esc</code>).
+  <code>←</code> <code>→</code> 날짜, <code>1</code>~<code>9</code> 세부 항목.
+  원본은 각 스크립트가 만든 PDF이고 여기 SVG는 그걸 변환한 것이라 값은 같다.
+  커뮤니티 지도는 원본 인터랙티브 HTML을 그대로 끼운 것이라 자체 날짜 UI를 쓴다.
+</footer>
+<dialog id="zoom"><button class="close" onclick="zoom.close()">닫기</button><img id="zoomImg" alt=""></dialog>
+<script>
+const DATA = {"dates": ["2026-06-22", "2026-06-23", "2026-06-24", "2026-06-25", "2026-06-26", "2026-06-27", "2026-06-28"], "groups": [{"key": "community", "label": "Community", "items": [{"key": "emd_community", "label": "읍면동 커뮤니티 지도", "kind": "html", "src": "assets/emd_community_map.html"}]}, {"key": "map", "label": "Map", "items": [{"key": "poi_map", "label": "POI 지도 (수도권)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_map_2026-06-22.svg", "2026-06-23": "assets/poi_map_2026-06-23.svg", "2026-06-24": "assets/poi_map_2026-06-24.svg", "2026-06-25": "assets/poi_map_2026-06-25.svg", "2026-06-26": "assets/poi_map_2026-06-26.svg", "2026-06-27": "assets/poi_map_2026-06-27.svg", "2026-06-28": "assets/poi_map_2026-06-28.svg"}}, {"key": "poi_map_seoul", "label": "POI 지도 (서울)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_map_seoul_2026-06-22.svg", "2026-06-23": "assets/poi_map_seoul_2026-06-23.svg", "2026-06-24": "assets/poi_map_seoul_2026-06-24.svg", "2026-06-25": "assets/poi_map_seoul_2026-06-25.svg", "2026-06-26": "assets/poi_map_seoul_2026-06-26.svg", "2026-06-27": "assets/poi_map_seoul_2026-06-27.svg", "2026-06-28": "assets/poi_map_seoul_2026-06-28.svg"}}, {"key": "hub_map", "label": "허브 지도 (수도권)", "kind": "svg", "assets": {"2026-06-22": "assets/hub_map_2026-06-22.svg", "2026-06-23": "assets/hub_map_2026-06-23.svg", "2026-06-24": "assets/hub_map_2026-06-24.svg", "2026-06-25": "assets/hub_map_2026-06-25.svg", "2026-06-26": "assets/hub_map_2026-06-26.svg", "2026-06-27": "assets/hub_map_2026-06-27.svg", "2026-06-28": "assets/hub_map_2026-06-28.svg"}}, {"key": "hub_map_seoul", "label": "허브 지도 (서울)", "kind": "svg", "assets": {"2026-06-22": "assets/hub_map_seoul_2026-06-22.svg", "2026-06-23": "assets/hub_map_seoul_2026-06-23.svg", "2026-06-24": "assets/hub_map_seoul_2026-06-24.svg", "2026-06-25": "assets/hub_map_seoul_2026-06-25.svg", "2026-06-26": "assets/hub_map_seoul_2026-06-26.svg", "2026-06-27": "assets/hub_map_seoul_2026-06-27.svg", "2026-06-28": "assets/hub_map_seoul_2026-06-28.svg"}}]}, {"key": "cartography", "label": "Cartography", "items": [{"key": "poi", "label": "cartography (POI)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_2026-06-22.svg", "2026-06-23": "assets/poi_2026-06-23.svg", "2026-06-24": "assets/poi_2026-06-24.svg", "2026-06-25": "assets/poi_2026-06-25.svg", "2026-06-26": "assets/poi_2026-06-26.svg", "2026-06-27": "assets/poi_2026-06-27.svg", "2026-06-28": "assets/poi_2026-06-28.svg"}}, {"key": "poi_lq", "label": "cartography (POI, LQ)", "kind": "svg", "assets": {"2026-06-22": "assets/poi_lq_2026-06-22.svg", "2026-06-23": "assets/poi_lq_2026-06-23.svg", "2026-06-24": "assets/poi_lq_2026-06-24.svg", "2026-06-25": "assets/poi_lq_2026-06-25.svg", "2026-06-26": "assets/poi_lq_2026-06-26.svg", "2026-06-27": "assets/poi_lq_2026-06-27.svg", "2026-06-28": "assets/poi_lq_2026-06-28.svg"}}, {"key": "hub", "label": "cartography (hub)", "kind": "svg", "assets": {"2026-06-22": "assets/hub_2026-06-22.svg", "2026-06-23": "assets/hub_2026-06-23.svg", "2026-06-24": "assets/hub_2026-06-24.svg", "2026-06-25": "assets/hub_2026-06-25.svg", "2026-06-26": "assets/hub_2026-06-26.svg", "2026-06-27": "assets/hub_2026-06-27.svg", "2026-06-28": "assets/hub_2026-06-28.svg"}}]}]};
+const state = {
+  group: DATA.groups[0].key,
+  item: DATA.groups[0].items[0].key,
+  date: DATA.dates[0],
+  mode: "grid",
+};
+
+const curGroup = () => DATA.groups.find(g => g.key === state.group);
+const curItems = () => curGroup().items;
+const hasDates = () => curItems().some(it => it.kind === "svg");
+
+function chip(label, pressed, onclick) {
+  const b = document.createElement("button");
+  b.textContent = label;
+  b.setAttribute("aria-pressed", pressed ? "true" : "false");
+  b.onclick = onclick;
+  return b;
+}
+
+function fill(id, chips) {
+  const el = document.getElementById(id);
+  el.querySelectorAll("button").forEach(b => b.remove());
+  chips.forEach(c => el.appendChild(c));
+  return el;
+}
+
+function renderBar() {
+  fill("groups", DATA.groups.map(g => chip(g.label, g.key === state.group, () => {
+    state.group = g.key;
+    state.item = g.items[0].key;
+    render();
+  })));
+
+  fill("items", curItems().map(it => chip(it.label, it.key === state.item, () => {
+    state.item = it.key; state.mode = "single"; render();
+  })));
+
+  const d = fill("dates", DATA.dates.map(dt => chip(dt.slice(5), dt === state.date, () => {
+    state.date = dt; render();
+  })));
+  d.hidden = !hasDates();
+
+  fill("modes", [
+    chip("나란히", state.mode === "grid", () => { state.mode = "grid"; render(); }),
+    chip("한 장 크게", state.mode === "single", () => { state.mode = "single"; render(); }),
+  ]).hidden = curItems().length < 2;
+}
+
+function card(it) {
+  // 캡션을 달지 않는다 — 그림(SVG) 안에 이미 "제목 + 날짜"가 그려져 있어서
+  // 바깥에 또 쓰면 중복된다(2026-10-11 사용자 지시).
+  const fig = document.createElement("figure");
+
+  if (it.kind === "html") {
+    const f = document.createElement("iframe");
+    f.src = it.src; f.title = it.label; f.loading = "lazy";
+    fig.appendChild(f);
+    return fig;
+  }
+  const src = (it.assets || {})[state.date];
+  if (!src) {
+    const p = document.createElement("div");
+    p.className = "empty";
+    p.textContent = it.label + " — 이 날짜 그림이 없다";
+    fig.appendChild(p);
+    return fig;
+  }
+  const img = document.createElement("img");
+  img.src = src; img.alt = it.label + " " + state.date; img.loading = "lazy";
+  img.onclick = () => {
+    document.getElementById("zoomImg").src = src;
+    document.getElementById("zoom").showModal();
+  };
+  fig.appendChild(img);
+  return fig;
+}
+
+function render() {
+  renderBar();
+  const grid = document.getElementById("grid");
+  const single = state.mode === "single" || curItems().length === 1;
+  grid.className = "grid" + (single ? " single" : "");
+  grid.replaceChildren(...(single
+    ? [card(curItems().find(it => it.key === state.item) || curItems()[0])]
+    : curItems().map(card)));
+}
+
+addEventListener("keydown", e => {
+  if (document.getElementById("zoom").open) return;
+  if (e.target.tagName === "IFRAME") return;
+  const i = DATA.dates.indexOf(state.date);
+  if (e.key === "ArrowLeft" && i > 0) { state.date = DATA.dates[i - 1]; render(); }
+  if (e.key === "ArrowRight" && i < DATA.dates.length - 1) { state.date = DATA.dates[i + 1]; render(); }
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= curItems().length) {
+    state.item = curItems()[n - 1].key; state.mode = "single"; render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
