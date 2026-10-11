@@ -24,6 +24,10 @@
   .row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
           margin-top: 6px; }
   .group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  /* `.group`의 display:flex가 브라우저 기본 `[hidden]{display:none}`을 이긴다
+     (작성자 스타일이 UA 스타일보다 우선). 명시적으로 눌러 줘야 숨겨진다 —
+     Community일 때 바깥 날짜 바가 안 숨겨져 지도 자체 날짜 버튼과 중복됐다. */
+  .group[hidden] { display: none; }
   .group > span { color: var(--muted); font-size: 12px; margin-right: 4px; }
   button {
     font: inherit; font-size: 12.5px; padding: 4px 10px; cursor: pointer;
