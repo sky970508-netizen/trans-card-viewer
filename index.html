@@ -50,7 +50,12 @@
   dialog::backdrop { background: rgba(0,0,0,.6); }
   dialog img { display: block; max-width: 96vw; max-height: 90vh; width: auto; }
   dialog .close { position: absolute; top: 8px; right: 10px; }
-  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    main { padding: 10px; }
+    /* 커뮤니티 지도는 안에 지도+목록+버튼이 다 들어가므로 세로를 더 준다. */
+    figure iframe { height: 86vh; }
+  }
 </style>
 </head>
 <body>
